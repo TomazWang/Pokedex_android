@@ -1,0 +1,24 @@
+package idv.tomazwang.app.pokedex;
+
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MainFragment fragment = MainFragment.newInstance();
+
+        FragmentManager manager = getSupportFragmentManager();
+        manager.beginTransaction().replace(R.id.frame_main,fragment).commit();
+
+    }
+}
