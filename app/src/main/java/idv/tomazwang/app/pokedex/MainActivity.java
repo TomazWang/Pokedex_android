@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         MainFragment fragment = MainFragment.newInstance("pokedex.json");
 
         FragmentManager manager = getSupportFragmentManager();
-        manager.beginTransaction().replace(R.id.frame_main,fragment).commit();
+        manager.beginTransaction().replace(R.id.frame_main, fragment).commit();
 
     }
 }
