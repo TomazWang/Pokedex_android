@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class PokedexAdapter extends RecyclerView.Adapter<PokedexAdapter.ViewHolder>{
 
 
-    private ArrayList<String> mDataSet = new ArrayList<>();
+    private ArrayList<Pokemon> mDataSet = new ArrayList<>();
 
     public class ViewHolder extends  RecyclerView.ViewHolder{
 
@@ -52,7 +52,7 @@ public class PokedexAdapter extends RecyclerView.Adapter<PokedexAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        holder.getTxt_name().setText(mDataSet.get(position));
+        holder.getTxt_name().setText(mDataSet.get(position).getName_zh());
     }
 
     @Override
@@ -60,7 +60,7 @@ public class PokedexAdapter extends RecyclerView.Adapter<PokedexAdapter.ViewHold
         return mDataSet.size();
     }
 
-    public PokedexAdapter(ArrayList<String> mDataSet) {
+    public PokedexAdapter(ArrayList<Pokemon> mDataSet) {
         this.mDataSet = mDataSet;
     }
 }

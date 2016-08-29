@@ -1,12 +1,19 @@
 package idv.tomazwang.app.pokedex;
 
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 
-public class MainFragment extends RecyclerViewFragment<String> {
+public class MainFragment extends RecyclerViewFragment<Pokemon> {
 
     private final static String TAG = MainFragment.class.getSimpleName();
 
@@ -39,11 +46,34 @@ public class MainFragment extends RecyclerViewFragment<String> {
     }
 
     @Override
-    protected void initDataSet(ArrayList<String> dataSet) {
+    protected void initDataSet(ArrayList<Pokemon> dataSet) {
 
-        // TODO: replace these fake data here!
-        for (int i = 1; i <= 251; i++) {
-            dataSet.add("Number " + i);
+        try {
+            AssetManager assetManager = getActivity().getAssets();
+            InputStream is = assetManager.open(mFileDir);
+
+            int size = is.available();
+            byte[] buffer = new byte[size];
+
+            is.read(buffer);
+            is.close();
+
+            String bufferString = new String(buffer, "UTF-8");
+
+            Gson gson = new Gson();
+
+            Type listType = new TypeToken<ArrayList<Pokemon>>() {
+            }.getType();
+
+            ArrayList<Pokemon> pokemonList = gson.fromJson(bufferString, listType);
+
+            dataSet.addAll(pokemonList);
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
     }
 }
+
+
