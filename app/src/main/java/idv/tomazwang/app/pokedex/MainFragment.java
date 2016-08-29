@@ -7,6 +7,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -20,6 +23,7 @@ public class MainFragment extends Fragment {
     public static final int LINER_LAYOUT = 0;
     public static final int GRID_LAYOUT = 1;
     private static final String KEY_LAYOOUT_MABAGER_TYPE = "layoutManagerType";
+    private static final String FILE_DIR_KEY = "fileDir";
 
     @IntDef({LINER_LAYOUT, GRID_LAYOUT})
     public @interface LayoutManagerType {
@@ -37,15 +41,24 @@ public class MainFragment extends Fragment {
 
     private ArrayList<String> mDataSet = new ArrayList<>();
 
-    public static MainFragment newInstance() {
+    public static MainFragment newInstance(String fileDir) {
         MainFragment fragment = new MainFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(FILE_DIR_KEY, fileDir);
+
+        fragment.setArguments(bundle);
+
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initData();
+        Bundle arguments = this.getArguments();
+        String fileDir = arguments.getString(FILE_DIR_KEY);
+        initData(fileDir);
+
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -83,6 +96,15 @@ public class MainFragment extends Fragment {
         return rootView;
     }
 
+    private void changeRecyclerViewLayoutManager(){
+        if(mCurrentLayoutManagerType == LINER_LAYOUT){
+            setRecyclerViewLayoutManager(GRID_LAYOUT);
+        }else{
+            setRecyclerViewLayoutManager(LINER_LAYOUT);
+        }
+    }
+
+
     private void setRecyclerViewLayoutManager(@LayoutManagerType int type) {
         int scrollPosition = 0;
 
@@ -90,7 +112,7 @@ public class MainFragment extends Fragment {
         if(mRecyclerView.getLayoutManager() != null){
 
             // GridLayoutManager extends LinearLayoutManager.
-            scrollPosition = ((LinearLayoutManager)mRecyclerView.getLayoutManager()).findLastVisibleItemPosition();
+            scrollPosition = ((LinearLayoutManager)mRecyclerView.getLayoutManager()).findFirstVisibleItemPosition();
         }
 
 
@@ -98,12 +120,14 @@ public class MainFragment extends Fragment {
             case GRID_LAYOUT:
                 mLayoutManager = new GridLayoutManager(getActivity(),mSpanCount);
                 mCurrentLayoutManagerType = GRID_LAYOUT;
+
                 break;
 
             case LINER_LAYOUT:
             default:
                 mLayoutManager = new LinearLayoutManager(getActivity());
                 mCurrentLayoutManagerType = LINER_LAYOUT;
+
                 break;
         }
 
@@ -112,8 +136,25 @@ public class MainFragment extends Fragment {
 
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_main_fragmet, menu);
+    }
 
-    private void initData() {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if(id == R.id.action_changeView){
+            changeRecyclerViewLayoutManager();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void initData(String fileDir) {
 
         // TODO: replace these fake data here!
         for(int i = 0; i<= 80 ;i++){
