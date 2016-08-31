@@ -32,9 +32,9 @@ public abstract class RecyclerViewFragment<D> extends Fragment {
     }
 
     @LayoutManagerType
-    protected int mCurrentLayoutManagerType = LINER_LAYOUT;
+    protected int mCurrentLayoutManagerType = GRID_LAYOUT;
 
-    private int mSpanCount = 3;
+    protected int mSpanCount = 3;
 
     protected RecyclerView mRecyclerView;
     protected RecyclerView.LayoutManager mLayoutManager;
@@ -153,7 +153,16 @@ public abstract class RecyclerViewFragment<D> extends Fragment {
         return mDataSet;
     }
 
-    public RecyclerView.Adapter getmAdapter() {
+    public RecyclerView.Adapter getAdapter() {
         return mAdapter;
     }
+
+    public int getSpanCount() {
+        return mSpanCount;
+    }
+
+    public void setSpanCount(int mSpanCount) {
+        this.mSpanCount = mSpanCount;
+    }
+
 }

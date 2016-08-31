@@ -13,7 +13,6 @@
         android:id="@+id/img_pokemon_pic"
         android:minHeight="50dp"
         android:minWidth="50dp"
-        android:background="@android:color/holo_blue_bright"
         />
 
     <TextView

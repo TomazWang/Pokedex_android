@@ -27,7 +27,6 @@ public class MainFragment extends RecyclerViewFragment<Pokemon> {
         bundle.putString(FILE_DIR_KEY, fileDir);
 
         fragment.setArguments(bundle);
-
         return fragment;
     }
 
@@ -36,9 +35,18 @@ public class MainFragment extends RecyclerViewFragment<Pokemon> {
         Bundle arguments = this.getArguments();
         mFileDir = arguments.getString(FILE_DIR_KEY);
 
+        super.setSpanCount(4);
+
         super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(false);
     }
 
+    @Override
+    protected void setRecyclerViewLayoutManager(@LayoutManagerType int type) {
+        super.setRecyclerViewLayoutManager(type);
+        // TODO: ImageView resize when change layout change.
+    }
 
     @Override
     protected RecyclerView.Adapter createAdapter() {
